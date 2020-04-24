@@ -1,18 +1,25 @@
 defmodule Counter do
   @moduledoc """
-  Documentation for `Counter`.
+  Apis for `Counter`.
   """
 
-  @doc """
-  Hello world.
+  @spec start(number()) :: pid()
+  def start(initial_count) do
+    spawn(fn -> Counter.Server.run(initial_count) end)
+  end
 
-  ## Examples
+  @spec tick(pid()) :: {atom(), pid()}
+  def tick(pid) do
+    send(pid, {:tick, self()})
+  end
 
-      iex> Counter.hello()
-      :world
+  @spec state(pid()) :: number()
+  def state(pid) do
+    send(pid, {:state, self()})
 
-  """
-  def hello do
-    :world
+    receive do
+      {:count, count} ->
+        count
+    end
   end
 end
