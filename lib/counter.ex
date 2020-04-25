@@ -8,7 +8,7 @@ defmodule Counter do
     spawn(fn -> Counter.Server.run(initial_count) end)
   end
 
-  @spec tick(pid()) :: {atom(), pid()}
+  @spec tick(pid()) :: {:tick, pid()}
   def tick(pid) do
     send(pid, {:tick, self()})
   end

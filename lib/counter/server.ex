@@ -3,6 +3,7 @@ defmodule Counter.Server do
   This module deal with the state persistance of the counter
   """
 
+  @spec run(number) :: no_return
   def run(count) do
     count
     |> listen()
